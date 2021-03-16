@@ -13,7 +13,7 @@ padding: 1rem 2rem;
 z-index: 100%;
 position: fixed;
 width: 100%;
-background: red;
+background: #cd853f;
 `;
 
 const NavLink = css`
@@ -24,7 +24,8 @@ const NavLink = css`
  height: 100%;
  cursor: pointer;
  text-decoration: none;
-`
+ 
+`;
 
 const Logo = styled(Link)`
 ${NavLink}
@@ -32,28 +33,28 @@ font-style: italic;
 `;
 
 const MenuBars = styled(FaBars)`
-display: none; 
+    display: none; 
 
-@media screen and (max-width: 768px) {
-    display: block;
-    height: 35px;
-    width: 35px;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-50%, 35%);
-}
+    @media screen and (max-width: 768px) {
+        display: block;
+        height: 35px;
+        width: 35px;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-50%, 35%);
+    }
 `;
 
 const NavMenu = styled.div`
-display: flex;
-align-items: center;
-margin-right: -48px;
+    display: flex;
+    align-items: center;
+    margin-right: -48px;
 
-@media screen and (max-width: 768px) {
-    display: none;
-}
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const NavMenuLinks = styled(Link)`
@@ -70,11 +71,11 @@ margin-right: 24px;
 }
 `;
 
-const Navbar = () => {
+const Navbar = ({toggle}) => {
     return (
         <Nav>
             <Logo to="/">ELIXR</Logo>
-            <MenuBars />
+            <MenuBars onClick={toggle}/>
             <NavMenu>
                 {menuData.map((item, index) => (
                     <NavMenuLinks to={item.link} key={index}>
@@ -83,10 +84,12 @@ const Navbar = () => {
                     ))}
             </NavMenu>
            <NavBtn>
-               <Button to="/contact" primary='true'> CONTECT US</Button>
+               <Button to="/contact" primary='true'> 
+               CONTECT US
+               </Button>
            </NavBtn>
         </Nav>
-    )
-}
+    );
+};
 
 export default Navbar;
