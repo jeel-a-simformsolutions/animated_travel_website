@@ -30,7 +30,7 @@ height: 100%;
 
 const HeroSlider = styled.div`
 position: absolute;
-top: 60px;
+top: 0;
 left: 0;
 height: 100%;
 width: 100%;
@@ -74,7 +74,7 @@ color: #fff;
 
 h1 {
     font-size: clamp(1rem, 8vw, 2rem);
-    font-weight: 400;
+    font-weight: bold;
     text-transform: uppercase;
     text-shadow: 0px 0px 20px rgba(0,0,0,0.4);
     text-align: left;
@@ -84,6 +84,8 @@ h1 {
 p{
     margin-bottom: 1.2rem;
     text-shadow: 0px 0px 20px rgba(0,0,0,0.4);
+    font-weight: bold;
+    color: black;
 }
 `;
 const Arrow = styled(IoMdArrowRoundForward)`
@@ -106,6 +108,7 @@ const arrowButtons = css`
     background: #000d1a;
     border-radius: 100px;
     margin-right: 1rem;
+    margin-bottom: 3rem;
     user-select: none;
     transition: 0.3s;
 
@@ -123,23 +126,27 @@ const NextArrow = styled(IoArrowForward)`
 ${arrowButtons}
 `;
 
+const heading = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 const Hero = ({ slides }) => {
  const [current, setCurrent] = useState(0);
  const length = slides.length;
  const timeout = useRef(null);
 
-//  useEffect(() => {
-//      const nextSlide = () => {
-//      setCurrent(current => (current === length - 1 ? 0 : current + 1));
-//  };
-//     timeout.current = setTimeout(nextSlide, 3000);
+ useEffect(() => {
+     const nextSlide = () => {
+     setCurrent(current => (current === length - 1 ? 0 : current + 1));
+ };
+    timeout.current = setTimeout(nextSlide, 3000);
 
-//     return function() {
-//         if(timeout.current) {
-//             clearTimeout(timeout.current);
-//         }
-//     }
-// },[current, length])
+    return function() {
+        if(timeout.current) {
+            clearTimeout(timeout.current);
+        }
+    }
+},[current, length])
 
  const nextSlide = () => {
     if(timeout.current) {
@@ -172,11 +179,16 @@ const Hero = ({ slides }) => {
                             <HeroSlider>
                             <HeroImage src={slide.image} alt={slide.alt}/>
                             <HeroContent>
-                                <h1>{slide.title}</h1>
-                                <p>{slide.price}</p>
+                                <div className='heading'>
+                                <div><h1>{slide.title}</h1></div>
+                                <div><p>{slide.price}</p></div>
                                 <Button to={slide.path} primary='true'
                                 css={`max-width: 160px`}>{slide.label}
-                                <Arrow /></Button>
+                                <Arrow/>
+                                </Button>
+                                
+                                
+                                </div>
                             </HeroContent>
                         </HeroSlider>
                         )}

@@ -1,95 +1,81 @@
-import React from 'react';
-import styled, {css} from 'styled-components/macro';
-import {Link} from  'react-router-dom';
-import { menuData } from '../data/MenuData';
+import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import {FaBars} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
-const Nav = styled.nav`
-height: 60px;
-display: flex;
-justify-content: space-between;
-padding: 1rem 2rem;
-z-index: 100%;
-position: fixed;
-width: 100%;
-background: #cd853f;
-`;
+function Navbar() {
+  const [click, setClick] = useState(false);
+  const [button, setButton] = useState(true);
 
-const NavLink = css`
- color: #fff;
- display: flex;
- align-items: center;
- padding: 0 1rem;
- height: 100%;
- cursor: pointer;
- text-decoration: none;
- 
-`;
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
 
-const Logo = styled(Link)`
-${NavLink}
-font-style: italic;
-`;
-
-const MenuBars = styled(FaBars)`
-    display: none; 
-
-    @media screen and (max-width: 768px) {
-        display: block;
-        height: 35px;
-        width: 35px;
-        cursor: pointer;
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(-50%, 35%);
+  const showButton = () => {
+    if (window.innerWidth <= 960) {
+      setButton(false);
+    } else {
+      setButton(true);
     }
-`;
+  };
 
-const NavMenu = styled.div`
-    display: flex;
-    align-items: center;
-    margin-right: -48px;
+  useEffect(() => {
+    showButton();
+  }, []);
 
-    @media screen and (max-width: 768px) {
-        display: none;
-    }
-`;
+  window.addEventListener('resize', showButton);
 
-const NavMenuLinks = styled(Link)`
-${NavLink}
-`;
+  return (
+    <>
+      <nav className='navbar'>
+        <div className='navbar-container'>
+          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            XPLOR
+            <i class="fab fa-xing"></i>
+          </Link>
+          <div className='menu-icon' onClick={handleClick}>
+            <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+          </div>
+        <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+            <li className='nav-item'>
+              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                Home
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/About'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                About
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
+                to='/Rentals'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
+                Rentals
+              </Link>
+            </li>
 
-const NavBtn = styled.div`
-display: flex;
-align-items: center;
-margin-right: 24px;
+            <li>
+              <Link
+                to='/Contect Us'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
+                Contect us
+              </Link>
+            </li>
 
-@media screen and (max-width: 768px) {
-    display: none;
+          </ul>
+          {button && <Button buttonStyle='btn--outline'>CONTECT US</Button>}
+        </div>
+      </nav>
+    </>
+  );
 }
-`;
-
-const Navbar = ({toggle}) => {
-    return (
-        <Nav>
-            <Logo to="/">ELIXR</Logo>
-            <MenuBars onClick={toggle}/>
-            <NavMenu>
-                {menuData.map((item, index) => (
-                    <NavMenuLinks to={item.link} key={index}>
-                        {item.title}
-                    </NavMenuLinks>
-                    ))}
-            </NavMenu>
-           <NavBtn>
-               <Button to="/contact" primary='true'> 
-               CONTECT US
-               </Button>
-           </NavBtn>
-        </Nav>
-    );
-};
 
 export default Navbar;

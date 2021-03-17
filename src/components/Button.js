@@ -1,25 +1,35 @@
-import styled from 'styled-components';
+
 import  {Link} from 'react-router-dom';
+import React from 'react';
+import './Button.css';
 
-export const Button = styled(Link)`
-background: ${({ primary }) => (primary ? '#000d1a' : 
-'CD853F')};
-white-space: nowrap;
-outline: none;
-border: none;
-min-width: 100px;
-max-width: 200px;
-cursor: pointer;
-text-decoration: none;
-transition: 0.3s;
-display: flex;
-justify-contents: center;
-align-items: center;
-padding: ${({big}) => (big ? '16px 40px' : '14px 24px')};
-color: ${({primary}) => (primary ? '#fff' : '#000d1a')};
-font-size: ${({big}) => (big ? '20px' : '14px')};
+const STYLES = ['btn--primary', 'btn--outline', 'btn--test'];
 
-&:hover {
-    transform: translateY(-2px);
-}
-`;
+const SIZES = ['btn--medium', 'btn--large'];
+
+export const Button = ({
+  children,
+  type,
+  onClick,
+  buttonStyle,
+  buttonSize
+}) => {
+  const checkButtonStyle = STYLES.includes(buttonStyle)
+    ? buttonStyle
+    : STYLES[0];
+
+  const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
+
+  return (
+    <Link to='/sign-up' className='btn-mobile'>
+      <button
+        className={`btn ${checkButtonStyle} ${checkButtonSize}`}
+        onClick={onClick}
+        type={type}
+      >
+        {children}
+      </button>
+    </Link>
+  );
+};
+
